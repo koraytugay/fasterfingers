@@ -1,0 +1,24 @@
+body {
+  font-size: 40px;
+  font-family: sans-serif;
+}
+
+#current-word {
+  padding: 1px 2px;
+}
+
+#user-input{
+  height: 60px;
+  font-size: 40px;
+  border: none;
+  outline: none;
+  font-family: sans-serif;
+}
+
+#remaining-time {
+  font-size: 40px;
+}
+
+#new-game-button {
+  font-size: 20px;
+}
