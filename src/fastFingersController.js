@@ -28,6 +28,7 @@ import fastFingersService from './fastFingersService.js';
     userInput.disabled = false;
     userInput.value = '';
     userInput.focus();
+    fetchNextImageShowCurrentImage();
     redraw();
   }
 
@@ -49,13 +50,14 @@ import fastFingersService from './fastFingersService.js';
     if (evt.data === ' ') {
       fastFingersService.proceed(fastFingersGame, true);
       evt.target.value = '';
-      redraw();
+      fetchNextImageShowCurrentImage();
     }
     if (userInput === fastFingersService.getCurrentWord(fastFingersGame)) {
       fastFingersService.proceed(fastFingersGame);
       evt.target.value = '';
-      redraw();
+      fetchNextImageShowCurrentImage();
     }
+    redraw();
   });
 
   function fetchNextImageShowCurrentImage() {
@@ -78,12 +80,22 @@ import fastFingersService from './fastFingersService.js';
     }
   }
 
-  // Redraw UI
   function redraw() {
     currentWord.innerHTML = '';
-    currentWord.textContent = fastFingersService.getCurrentWord(fastFingersGame);
+    const currentPokemonName = fastFingersService.getCurrentWord(fastFingersGame);
+    const letters = currentPokemonName.split('');
+    for (let i = 0; i < letters.length; i++) {
+      let letterSpan = document.createElement("span");
+      letterSpan.innerText = letters[i];
+      if (userInput.value[i] && userInput.value[i] === letters[i]) {
+        letterSpan.classList.add('correct');
+      }
+      if (userInput.value[i] && userInput.value[i] !== letters[i]) {
+        letterSpan.classList.add('wrong');
+      }
+      currentWord.appendChild(letterSpan);
+    }
     nextWord.textContent = fastFingersService.getNextWord(fastFingersGame);
-    fetchNextImageShowCurrentImage();
   }
 
   // Start new game when page loads
