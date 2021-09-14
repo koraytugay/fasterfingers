@@ -15,7 +15,7 @@ export default (function() {
       pokemons: shuffleArray(pokemons),
       currentIndex: 0,
       skippedCount: 0,
-      remainingTime: 6,
+      remainingTime: 60,
       timer: undefined,
       startTimer() {
         this.timer = setInterval(() => {
