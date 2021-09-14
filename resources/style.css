@@ -3,8 +3,13 @@ body {
   font-family: sans-serif;
 }
 
-#current-word {
+#current-word, #next-word {
   padding: 1px 2px;
+}
+
+#next-word {
+  font-size: 30px;
+  color: gray;
 }
 
 #user-input{

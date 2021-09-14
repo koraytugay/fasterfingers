@@ -10,6 +10,7 @@ import fastFingersService from './fastFingersService.js';
   const userInput = byId("user-input");
   const remainingTime = byId("remaining-time");
   const currentWord = byId("current-word");
+  const nextWord = byId("next-word");
 
   // Where we keep the game state
   let fastFingersGame;
@@ -23,6 +24,7 @@ import fastFingersService from './fastFingersService.js';
     evenImageDiv.innerHTML = '';
     evenImageDiv.appendChild(pokemonImg);
 
+    userInput.hidden = false;
     userInput.disabled = false;
     userInput.value = '';
     userInput.focus();
@@ -36,13 +38,19 @@ import fastFingersService from './fastFingersService.js';
     remainingTime.textContent = fastFingersGame.remainingTime;
     if (fastFingersGame.remainingTime === 0) {
       userInput.disabled = true;
-      remainingTime.textContent = `${fastFingersGame.currentIndex} pokemons / minute!`;
+      userInput.hidden = true;
+      remainingTime.textContent = `Net: ${fastFingersGame.currentIndex - fastFingersGame.skippedCount}. Total: ${fastFingersGame.currentIndex}. Skipped: ${fastFingersGame.skippedCount}.`;
     }
   }, 10);
 
   userInput.addEventListener('input', function(evt) {
     fastFingersService.startTimeIfNeeded(fastFingersGame); // timer starts when user starts inputting
     const userInput = evt.target.value;
+    if (evt.data === ' ') {
+      fastFingersService.proceed(fastFingersGame, true);
+      evt.target.value = '';
+      redraw();
+    }
     if (userInput === fastFingersService.getCurrentWord(fastFingersGame)) {
       fastFingersService.proceed(fastFingersGame);
       evt.target.value = '';
@@ -74,6 +82,7 @@ import fastFingersService from './fastFingersService.js';
   function redraw() {
     currentWord.innerHTML = '';
     currentWord.textContent = fastFingersService.getCurrentWord(fastFingersGame);
+    nextWord.textContent = fastFingersService.getNextWord(fastFingersGame);
     fetchNextImageShowCurrentImage();
   }
 

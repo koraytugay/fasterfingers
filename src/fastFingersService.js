@@ -14,7 +14,8 @@ export default (function() {
     return {
       pokemons: shuffleArray(pokemons),
       currentIndex: 0,
-      remainingTime: 60,
+      skippedCount: 0,
+      remainingTime: 6,
       timer: undefined,
       startTimer() {
         this.timer = setInterval(() => {
@@ -38,8 +39,15 @@ export default (function() {
     return fastFingersGame.pokemons[fastFingersGame.currentIndex].name;
   }
 
-  function proceed(fastFingersGame) {
+  function getNextWord(fastFingersGame) {
+    return fastFingersGame.pokemons[fastFingersGame.currentIndex + 1].name;
+  }
+
+  function proceed(fastFingersGame, skipped = false) {
     fastFingersGame.currentIndex++;
+    if (skipped) {
+      fastFingersGame.skippedCount++;
+    }
   }
 
   function startTimeIfNeeded(fastFingersGame) {
@@ -51,6 +59,7 @@ export default (function() {
   return {
     newFastFingersGame,
     getCurrentWord,
+    getNextWord,
     getCurrentId,
     getNextId,
     proceed,
