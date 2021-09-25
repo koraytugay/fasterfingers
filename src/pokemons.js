@@ -1,4 +1,4 @@
-export const pokemons = [
+export default [
   {
     "name": "bulbasaur",
     "id": "1"
